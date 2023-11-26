@@ -81,6 +81,16 @@
 \end{frame}
 
 %------------------------------------------------
+% Computational Hardness
+\begin{frame}{Computational Hardness}
+    \begin{itemize}
+        \item The problem is NP-hard even when there are only $2$ machines \pause
+        \item When $m \le 3$, then there exists a pseudo-polynomial time algorithm \pause
+        \item In contrast, when $m \ge 4$, the problem is strongly NP-hard
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
 % Section divider frame
 \makesection{Algorithm}
 
@@ -134,7 +144,7 @@
         
         \onslide<1-> \draw[-stealth] (a) -- (b);
         \onslide<2> \draw[dotted] (e) -- (d);
-        \onslide<2> \node[rectangle callout, color=black, callout relative pointer={(0,0.5)}, below of=f] {$p_j$};
+        \onslide<2> \node[rectangle callout, color=black, fill=yellow, callout relative pointer={(0,0.5)}, below of=f] {$p_j$};
         \onslide<1-3> \draw [fill=orange] (7,5) rectangle (12,5.5);
 
         \onslide<3> \node (g) at (6.7,4.9) {R};
@@ -142,11 +152,21 @@
         \onslide<3> \node (i) at (12.1,7.5) {$C_j-p_j$};
         \onslide<3> \draw[-stealth] (g) -- (h);
 
-        \onslide<4> \draw [fill=orange] (6.5,4) rectangle (11.5,4.5);
+        \onslide<4-5> \draw [fill=orange] (6.5,4) rectangle (11.5,4.5);
         \node (j) at (6.4,4.4) {};
+        \onslide<5>
         \node (k) at (11.5,7) {R};
         \draw[-stealth] (j) -- (k);
     \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Greedy Algorithm}
+    \begin{itemize}
+        \item Often called list scheduling algorithm \pause
+        \item Assign a job as soon as a machine is available for processing \pause
+        \item Pick the least heavily loaded machine $\rightarrow$ greedy choice \pause
+        \item A 2-approximation algorithm of the original problem
+    \end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -154,79 +174,96 @@
 \makesection{Theorem}
 
 %------------------------------------------------
-% Theoerm (in highlighted box) and Equation in text
+% Theoerm
 \begin{frame}{Theorem}
     \begin{theorem}[2-approximation algorithm]
         The local search procedure for scheduling jobs on identical parallel machines is a 2-approximation algorithm
     \end{theorem}
 \end{frame}
 
-\begin{frame}{Proof}
+\begin{frame}{Proof - First Lower Bound}
     Suppose, \\
     The length of optimal schedule be $C_{max}^*$ \newline \newline \pause
     $x_{ij}=1$ if $i$ machine processes job $j$, otherwise $x_{ij}=0$ \newline \newline \pause
     For any machine $i$, its completion time is $\sum_{j=1}^{n} x_{ij}p_j$ \newline \newline \pause
     So,
-    \begin{equation}
+    \begin{equation}\label{E1}
         C_{max}^* \ge \sum_{j=1}^{n} x_{ij}p_j
     \end{equation}
 \end{frame}
 
-%------------------------------------------------
-% Figure without wrapped text
-\begin{frame}{Figure}
-    \begin{figure}
-    \includegraphics[height=0.5\paperheight]{figures/results_fig.pdf}
-    \caption{Figure caption}
-    \end{figure}
+\begin{frame}{Proof - Second Lower Bound}
+    Moreover, \\
+    The total processing time is $P=\sum_{j=1}^n p_j$ \newline \newline \pause
+    $\therefore$ A machine is assigned $\frac{P}{m}$ units of work on average \newline \newline \pause
+    Consequently, one machine must be assigned at least the \textbf{average} amount of work.
+    So,
+    \begin{equation}\label{E2}
+        C_{max}^* \ge \sum_{j=1}^{n} \frac{p_j}{m} = \frac{P}{m}
+    \end{equation}
 \end{frame}
 
-%------------------------------------------------
-% Figure with wrapped text
-\begin{frame}{Wrapped Figure}
-    \begin{wrapfigure}{r}{0.4\textwidth}
-    \centering
-    \includegraphics[width=0.4\textwidth]{figures/results_fig.pdf}
-    \caption{Figure caption}
-\end{wrapfigure}
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
-\end{frame}
-%------------------------------------------------
-% Section divider frame
-\makesection{Citations and References}
+\begin{frame}{Proof - Illustration Revisit}
+    \begin{tikzpicture}
+        \node (A) at (1.5,5.7) {\texttt{A}};
+        \node (A) at (1.5,5.2) {\texttt{B}};
+        \node (A) at (1.5,4.7) {\texttt{C}};
+        \node (A) at (1.5,4.2) {\texttt{D}};
+        \node (A) at (1.5,3.7) {\texttt{E}};
+        
+        \draw (2,5.5) rectangle (5,6);
+        \draw (5,5.5) rectangle (9,6);
+        \draw (2,5) rectangle (4,5.5);
+        \draw (4,5) rectangle (7,5.5);
+        \draw (2,4.5) rectangle (6,5);
+        \draw (6,4.5) rectangle (8,5);
+        \draw (8,4.5) rectangle (9,5);
+        \draw (2,4) rectangle (5, 4.5);
+        \draw(5,4) rectangle (6.5,4.5);
+        \draw(2,3.5) rectangle (4.5,4);
+        \draw(4.5,3.5) rectangle (7.5,4);
+        \draw(7.5,3.5) rectangle (10,4);
 
-%------------------------------------------------
-% Citations
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-    \frametitle{Citation}
-    An example of the \verb|\cite| command to cite within the presentation:\\~
-
-    This statement requires citation \cite{p1}.
-\end{frame}
-
-%------------------------------------------------
-% Refenrenced
-\begin{frame}{References}
-    % Beamer does not support BibTeX so references must be inserted manually as below
-    \footnotesize{
-        \begin{thebibliography}{99}
-            \bibitem[Smith, 2012]{p1} John Smith (2012)
-            \newblock Title of the publication
-            \newblock \emph{Journal Name} 12(3), 45 -- 678.
-
-            \bibitem[Doe, 2012]{p1} Joe Doe (2012)
-            \newblock Title of the publication
-            \newblock \emph{Journal Name} 12(3), 45 -- 678.
-            \bibitem[Doe, 2013]{p} Jane Doe (2012)
-            \newblock Title of the publication
-            \newblock \emph{Journal Name} 12(3), 45 -- 678.
-        \end{thebibliography}
-    }
+        \node (a) at (7.5,3.5) {};
+        \node (b) at (14,3.5) {};
+        \node (c) at (14.5,3.5) {Time};
+        \node (j) at (6.4,4.4) {};
+        \node (k) at (11.5,7) {$S_j = C_j-p_j$};
+        \node (l) at (12,4.2) {Job j};
+        \node (M) at (11.5,4) {};
+        \node (N) at (11.5,3.4) {};
+        \node (O) at (11.5, 3) {$C_j$};
+        
+        \draw[-stealth] (j) -- (k);
+        \draw[-stealth] (a) -- (b);
+        \draw [fill=orange] (6.5,4) rectangle (11.5,4.5);
+        \draw[dotted] (M) -- (N);
+    \end{tikzpicture}
 \end{frame}
 
-%----------------------------------------------------------------------------------------
+\begin{frame}{Proof - Rounding Up}
+    \onslide<1->
+    Partition the schedule into time intervals $[0, S_j]$ and time during which $j$ is processed\newline \newline
+    \onslide<2->
+    By \eqref{E1}, length of latter interval is at most $C_{max}^*$ time\newline \newline
+    \onslide<3->
+    The total work processed during the first interval is $mS_j$
+    \onslide<4->
+    \begin{equation}\label{E3}
+        S_j \le \sum_{j=1}^{n} \frac{p_j}{m}
+    \end{equation}
+    \onslide<5>
+    From \eqref{E2} and \eqref{E3}, $S_j \le C_{max}^*$. So both intervals have a size of at most $C_{max}^*$. \textbf{Thus, the makespan of the schedule is at most $\mathbf{C_{max}^*}$.}
+\end{frame}
+
+\begin{frame}{Proof - Refinement}
+        Eqn \eqref{E3} takes into account the last completed job $j$, so excluding that \newline \newline \pause
+        $$p_j = \sum_{k \ne j}  \frac{p_k}{m}=(1-\frac{1}{m})p_k+\sum_{l=1}^n \frac{p_k}{m}$$ \pause
+        Applying the lower bounds, we have the length of the schedule as $$(2-\frac{1}{m})C_{max}^*$$
+\end{frame}
+
 % Final PAGE
-% Set the text that is showed on the final slide
+% Set the text that is shown on the final slide
 \finalpagetext{Thank you for your attention}
 %----------------------------------------------------------------------------------------
 \makefinalpage
